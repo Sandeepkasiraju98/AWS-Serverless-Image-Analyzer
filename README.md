@@ -9,7 +9,8 @@ A serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Re
 - **Lambda** — Automatically triggered on new uploads; processes images.
 - **Rekognition** — Performs object detection.
 - **CloudWatch** — Logs detected labels.
-- *(Optional)* Saves detection results as `.txt` files in S3 for audit or downstream workflows.
+- Auto-generates and stores detection results as structured `.txt` files within S3 (fully automated).
+
 
 ---
 
