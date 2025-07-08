@@ -1,6 +1,6 @@
 # AWS Serverless Image Recognition
 
-A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Rekognition. The solution automatically detects objects in uploaded images, logs results, and generates structured detection reports stored in S3—enabling automated analysis workflows.
+A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Rekognition. The solution automatically detects objects in uploaded images, logs results, and generates structured detection reports stored in S3 enabling automated analysis workflows.
 
 ---
 
