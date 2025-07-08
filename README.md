@@ -1,5 +1,3 @@
-![Project Cover Image](https://github.com/your-username/aws-serverless-image-analyzer/blob/main/social-preview.png)
-
 # AWS Serverless Image Recognition
 
 This is a simple serverless project using AWS services to automatically detect objects in images uploaded to an S3 bucket.
