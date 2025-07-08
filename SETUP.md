@@ -1,79 +1,82 @@
 # Project Setup — AWS Serverless Image Recognition
 
-This guide walks you through setting up the serverless image recognition pipeline on AWS.
+This guide provides setup instructions for deploying the serverless image recognition pipeline using AWS services.
 
 ---
 
-## 🛠️ Prerequisites:
-- AWS Account (Free Tier is sufficient for this project)
-- Basic familiarity with AWS Console
+## 🛠️ Prerequisites
+- AWS Account (Free Tier is sufficient for testing)
+- Basic familiarity with the AWS Management Console
 
 ---
 
-## ⚙️ Services Involved:
-- S3
-- Lambda
-- Rekognition
-- IAM
-- (Optional) DynamoDB, API Gateway, SNS
+## ⚙️ AWS Services Used
+- **S3:** Object storage for images and detection result reports.
+- **Lambda:** Event-driven function for processing images.
+- **Rekognition:** AI-powered image analysis.
+- **IAM:** Role-based access permissions.
+- *(Optional)* Additional integrations via DynamoDB, API Gateway, SNS.
 
 ---
 
-## 🚀 Deployment Steps:
+## 🚀 Deployment Steps
 
-### 1. Create an S3 Bucket:
-- Go to **S3** → Create Bucket → Name it (e.g., `image-upload-pipeline`).
-- Default settings are fine for testing.
+### 1. Create S3 Bucket
+- Navigate to **S3** → **Create Bucket**.
+- Name the bucket (e.g., `image-upload-pipeline`).
+- Default settings are sufficient for testing.
 
 ---
 
-### 2. Set Up IAM Role:
-- Go to **IAM** → Roles → Create Role.
-- Select **Lambda** as trusted service.
-- Attach the following policies:
+### 2. Create IAM Role
+- Go to **IAM** → **Roles** → **Create Role**.
+- Choose **Lambda** as the trusted entity.
+- Attach these policies:
   - `AmazonRekognitionFullAccess`
   - `AmazonS3FullAccess`
 - Name the role: `rekognition-lambda-role`.
 
 ---
 
-### 3. Deploy Lambda Function:
-- Go to **Lambda** → Create Function → Author from scratch.
+### 3. Create Lambda Function
+- Navigate to **Lambda** → **Create Function** → Author from scratch.
 - Function name: `image-analyzer`.
 - Runtime: **Python 3.12**.
-- Assign the IAM role you created (`rekognition-lambda-role`).
+- Assign the previously created IAM role (`rekognition-lambda-role`).
 
 ---
 
-### 4. Add Lambda Function Code:
-- Paste the provided code from `lambda_function.py` into your Lambda function.
+### 4. Deploy Lambda Code
+- Paste the provided code from `lambda_function.py` into the Lambda console.
 - Deploy the function.
 
 ---
 
-### 5. Connect S3 to Lambda (Trigger Setup):
+### 5. Configure S3 Trigger
 - In your S3 bucket:
-  - Go to **Properties** → Event notifications → Create event.
-  - Choose trigger for **All object create events**.
-  - Select your Lambda function as the destination.
+  - Go to **Properties** → **Event Notifications** → **Create event notification**.
+  - Select **All object create events** as the trigger.
+  - Set your Lambda function as the destination.
 
 ---
 
-### 6. Test:
-- Upload an image to your S3 bucket.
-- Review logs in **CloudWatch** → Outputs will show detected objects.
-- (Optional) Check S3 for the generated `.txt` file with detection results.
+### 6. Test the Pipeline
+- Upload an image to the S3 bucket.
+- Monitor Lambda execution logs in **CloudWatch**.
+- Detection results will be:
+  - Displayed in CloudWatch Logs.
+  - Auto-saved as `.txt` reports in S3 alongside the image.
 
 ---
 
-## 📝 Notes:
-- The Lambda function auto-generates detection results and stores them alongside the uploaded image.
-- No infrastructure management required—this is fully serverless.
+## 📝 Notes
+- The pipeline automatically processes uploaded images and stores detection results with no manual intervention.
+- Fully serverless and event-driven.
 
 ---
 
-## ⚠️ Cleanup:
-- Delete unused S3 buckets, Lambda functions, and IAM roles after testing to avoid unexpected costs.
+## ⚠️ Resource Cleanup
+After testing, delete all unused AWS resources (S3 bucket, Lambda function, IAM role) to prevent ongoing charges.
 
 ---
 
