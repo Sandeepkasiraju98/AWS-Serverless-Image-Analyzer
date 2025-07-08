@@ -1,44 +1,45 @@
 # AWS Serverless Image Recognition
 
-A serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Rekognition. Automatically detects objects in uploaded images and logs results with optional storage of detection outputs.
+A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Rekognition. The solution automatically detects objects in uploaded images, logs results, and generates structured detection reports stored in S3—enabling automated analysis workflows.
 
 ---
 
 ## 🏗️ Architecture Overview
-- **S3** — Stores uploaded images.
-- **Lambda** — Automatically triggered on new uploads; processes images.
-- **Rekognition** — Performs object detection.
-- **CloudWatch** — Logs detected labels.
-- *(Implemented)* Auto-generates and stores detection results as structured `.txt` files within S3 for audit, monitoring, or downstream workflows.
-
+- **S3** — Stores uploaded images and auto-generated detection result reports (`.txt`).
+- **Lambda** — Automatically triggered on new uploads; processes images and invokes Rekognition.
+- **Rekognition** — Performs object detection on uploaded images.
+- **CloudWatch** — Logs detected labels and processing information.
+- *(Implemented)* Auto-generates and stores detection results as structured `.txt` files within S3 for audit, monitoring, and downstream integration.
 
 ---
 
 ## ⚙️ Key Features
-- Event-driven, fully serverless architecture.
-- Minimal setup, designed for rapid deployment.
-- Auto-saves detection results as structured files (optional).
-- Built for extensibility (DynamoDB, API Gateway, SNS integrations ready).
+- Fully event-driven and serverless; requires no server management.
+- Minimal deployment steps with rapid automation.
+- Auto-saves detection results in structured format alongside uploaded images.
+- Extensible design supporting additional integrations (DynamoDB, API Gateway, SNS).
 
 ---
 
 ## 🚀 Usage Flow
 1. Upload an image to the S3 bucket.
-2. Lambda triggers and invokes Rekognition.
-3. Detected objects are logged and optionally persisted to S3.
+2. S3 triggers the Lambda function automatically.
+3. Lambda invokes Rekognition for image analysis.
+4. Detected objects are logged in CloudWatch and optionally stored in S3.
 
 ---
 
 ## 📂 Included
-- `lambda_function.py` — Lambda handler for automated detection and storage.
-- `README.md` — Project summary and usage notes.
+- `lambda_function.py` — Lambda handler for automated detection and result storage.
+- `README.md` — Project overview and architecture details.
+- `SETUP.md` — Deployment and configuration instructions.
 
 ---
 
 ## 🎯 Why It Matters
-- Automated, scalable image recognition pipeline.
-- No infrastructure to manage—entirely serverless.
-- Easy to integrate with additional AWS services for production-grade systems.
+- Enables scalable, automated image recognition pipelines with minimal operational overhead.
+- Designed for easy integration with additional AWS services for production environments.
+- Provides audit-ready detection results, enabling traceability and reporting.
 
 ---
 
@@ -48,7 +49,7 @@ A serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Re
 ---
 
 ## ⚠️ Notes
-Ensure AWS resources are cleaned up post-testing to avoid unintended charges.
+Ensure AWS resources are decommissioned after testing to avoid unnecessary costs.
 
 
-For detailed setup instructions, see [SETUP.md](./SETUP.md).
+For detailed setup and deployment instructions, refer to [SETUP.md](./SETUP.md).
