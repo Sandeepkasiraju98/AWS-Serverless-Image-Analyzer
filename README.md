@@ -48,3 +48,6 @@ A serverless image analysis pipeline built on AWS, leveraging S3, Lambda, and Re
 
 ## ⚠️ Notes
 Ensure AWS resources are cleaned up post-testing to avoid unintended charges.
+
+
+For detailed setup instructions, see [SETUP.md](./SETUP.md).
