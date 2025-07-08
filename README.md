@@ -58,6 +58,15 @@ In this project, the Lambda function also saves the detected objects into a text
 ### ✅ Example:
 If you upload an image called `cat.jpg`, you’ll also see a file like:
 
+### cat.jpg_results.txt
+
+This file will contain the detected objects and their confidence levels.
+
+---
+
+### ✅ Why This Is Cool:
+- You automatically store detection results for future reference.
+- No extra AWS services needed—it's all inside S3 and Lambda!
 ---
 
 ## 💡 Author:
