@@ -27,7 +27,6 @@ Whenever an image is uploaded, a Lambda function automatically triggers and uses
 ## 📄 Files Included:
 - `lambda_function.py` → The main Lambda function code.
 - `README.md` → This project guide.
-- `screenshots/` → *(Optional)* Screenshots showing the working project.
 
 ---
 
@@ -54,7 +53,6 @@ Follow this simple guide to build the project step by step:
 
 ## ✅ Notes:
 - Remember to delete AWS resources after testing to avoid any charges.
-- You can extend this project by saving results to DynamoDB or creating an API.
 
 ---
 
