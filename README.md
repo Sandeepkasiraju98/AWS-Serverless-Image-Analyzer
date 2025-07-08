@@ -46,6 +46,20 @@ Follow this simple guide to build the project step by step:
 
 ---
 
+## 🎉 Bonus Feature: Auto-Save Detection Results
+
+In this project, the Lambda function also saves the detected objects into a text file inside the same S3 bucket.
+
+### ✅ How It Works:
+- Detects objects using Rekognition (like before).
+- Saves a `.txt` file in the bucket with the results.
+- No manual steps—everything happens automatically.
+
+### ✅ Example:
+If you upload an image called `cat.jpg`, you’ll also see a file like:
+
+---
+
 ## 💡 Author:
 *Sandeep Kasiraju*
 
