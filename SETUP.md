@@ -15,7 +15,9 @@ This guide provides setup instructions for deploying the serverless image recogn
 - **Lambda:** Event-driven function for processing images.
 - **Rekognition:** AI-powered image analysis.
 - **IAM:** Role-based access permissions.
-- *(Optional)* Additional integrations via DynamoDB, API Gateway, SNS.
+- **DynamoDB:** NoSQL database for storing detection results.
+- **API Gateway:** Provides a secure HTTP API for manual triggering of the pipeline.
+- *(Optional)* Additional integrations via SNS, Step Functions, etc.
 
 ---
 
@@ -52,7 +54,7 @@ This guide provides setup instructions for deploying the serverless image recogn
 
 ---
 
-### 5. Configure S3 Trigger
+### 5. Configure S3 Trigger (Automatic Mode)
 - In your S3 bucket:
   - Go to **Properties** → **Event Notifications** → **Create event notification**.
   - Select **All object create events** as the trigger.
@@ -60,16 +62,7 @@ This guide provides setup instructions for deploying the serverless image recogn
 
 ---
 
-### 6. Test the Pipeline
-- Upload an image to the S3 bucket.
-- Monitor Lambda execution logs in **CloudWatch**.
-- Detection results will be:
-  - Displayed in CloudWatch Logs.
-  - Auto-saved as `.txt` reports in S3 alongside the image.
-
----
-
-### 7. Create DynamoDB Table (For Storing Results)
+### 6. Create DynamoDB Table (For Storing Results)
 - Go to **DynamoDB** → Click **Create Table**.
 - Table name: `ImageAnalysisResults`
 - Partition key: `ImageKey` (Type: String)
@@ -78,30 +71,48 @@ This guide provides setup instructions for deploying the serverless image recogn
 
 ---
 
-### 8. Grant Lambda Permission to Use DynamoDB
+### 7. Grant Lambda Permission to Use DynamoDB
 - Go to **IAM** → Roles → Find `rekognition-lambda-role`.
 - Click **Attach policies** → Search for `AmazonDynamoDBFullAccess`.
 - Select it and click **Attach Policy**.
 
+---
+
+### 8. Set Up API Gateway (API Mode - Manual Triggering)
+#### a. Create REST API:
+- Go to **API Gateway** → Create API → Select **REST API (Build)** → Regional.
+- Provide a name (e.g., `ImageAnalysisAPI`) → Click **Create API**.
+
+#### b. Create Resource and Method:
+- Click **Actions** → **Create Resource** → Resource Name: `analyze` → Resource Path: `/analyze`.
+- Select the resource → Click **Actions** → **Create Method** → Choose **POST**.
+- Integrate with Lambda function (`image-analyzer`).
+
+#### c. Deploy API:
+- Click **Actions** → **Deploy API** → Create a new stage (e.g., `dev`) → Deploy.
+
+#### d. Require API Key:
+- Under **Resources** → Select the **POST** method → Go to **Method Request**.
+- Set **API Key Required** to **true** → Save.
 
 ---
 
-## 📝 Notes
-- The pipeline automatically processes uploaded images, detects objects, and stores results without manual intervention.
-- Detection results are stored in two places:
-  - As `.txt` files in the S3 bucket.
-  - In DynamoDB for easy querying, auditing, or downstream workflows.
-- The architecture is fully serverless and event-driven, requiring no server management.
+### 9. Create API Key & Usage Plan
+- Go to **API Gateway** → API Keys → Create API Key → Name and Generate Key → Save the key securely.
+- Create a **Usage Plan** → Link the API and Stage (`dev`).
+- Attach the API Key to the Usage Plan.
 
 ---
 
-## ⚠️ Resource Cleanup
-To avoid unexpected charges, ensure all unused AWS resources are deleted after testing:
-- S3 bucket
-- Lambda function
-- DynamoDB table (`ImageAnalysisResults`)
-- IAM roles and policies (if no longer needed)
-
-
----
-
+### 10. Test API with Postman (Optional)
+- Method: `POST`
+- URL: `https://your-api-id.execute-api.region.amazonaws.com/dev/analyze`
+- Headers:
+  - `x-api-key`: Your API Key
+  - `Content-Type`: `application/json`
+- Body (JSON):
+```json
+{
+  "bucket": "your-bucket-name",
+  "key": "your-image.jpg"
+}
