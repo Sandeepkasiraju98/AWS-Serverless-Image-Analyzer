@@ -69,14 +69,39 @@ This guide provides setup instructions for deploying the serverless image recogn
 
 ---
 
+### 7. Create DynamoDB Table (For Storing Results)
+- Go to **DynamoDB** → Click **Create Table**.
+- Table name: `ImageAnalysisResults`
+- Partition key: `ImageKey` (Type: String)
+- Leave Sort key blank (optional, not needed here).
+- Use default settings and click **Create Table**.
+
+---
+
+### 8. Grant Lambda Permission to Use DynamoDB
+- Go to **IAM** → Roles → Find `rekognition-lambda-role`.
+- Click **Attach policies** → Search for `AmazonDynamoDBFullAccess`.
+- Select it and click **Attach Policy**.
+
+
+---
+
 ## 📝 Notes
-- The pipeline automatically processes uploaded images and stores detection results with no manual intervention.
-- Fully serverless and event-driven.
+- The pipeline automatically processes uploaded images, detects objects, and stores results without manual intervention.
+- Detection results are stored in two places:
+  - As `.txt` files in the S3 bucket.
+  - In DynamoDB for easy querying, auditing, or downstream workflows.
+- The architecture is fully serverless and event-driven, requiring no server management.
 
 ---
 
 ## ⚠️ Resource Cleanup
-After testing, delete all unused AWS resources (S3 bucket, Lambda function, IAM role) to prevent ongoing charges.
+To avoid unexpected charges, ensure all unused AWS resources are deleted after testing:
+- S3 bucket
+- Lambda function
+- DynamoDB table (`ImageAnalysisResults`)
+- IAM roles and policies (if no longer needed)
+
 
 ---
 
