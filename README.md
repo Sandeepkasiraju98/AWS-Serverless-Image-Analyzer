@@ -8,8 +8,8 @@ A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, 
 - **S3** — Stores uploaded images and auto-generated detection result reports (`.txt`).
 - **Lambda** — Automatically triggered on new uploads; processes images and invokes Rekognition.
 - **Rekognition** — Performs object detection on uploaded images.
+- **DynamoDB** — Stores detection results in a NoSQL table for audit and future queries.
 - **CloudWatch** — Logs detected labels and processing information.
-- *(Implemented)* Auto-generates and stores detection results as structured `.txt` files within S3 for audit, monitoring, and downstream integration.
 
 ---
 
@@ -17,7 +17,8 @@ A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, 
 - Fully event-driven and serverless; requires no server management.
 - Minimal deployment steps with rapid automation.
 - Auto-saves detection results in structured format alongside uploaded images.
-- Extensible design supporting additional integrations (DynamoDB, API Gateway, SNS).
+- Automatically stores detection results in DynamoDB for easy future access or reporting.
+- Extensible design supporting additional integrations (API Gateway, SNS).
 
 ---
 
@@ -40,6 +41,7 @@ A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, 
 - Enables scalable, automated image recognition pipelines with minimal operational overhead.
 - Designed for easy integration with additional AWS services for production environments.
 - Provides audit-ready detection results, enabling traceability and reporting.
+- Supports long-term, queryable storage of results via DynamoDB for downstream workflows or analytics.
 
 ---
 
