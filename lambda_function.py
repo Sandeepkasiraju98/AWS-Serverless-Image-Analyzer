@@ -12,7 +12,7 @@ table = dynamodb.Table('ImageAnalysisResults')
 
 def lambda_handler(event, context):
     try:
-        # ✅ Detect Event Source (S3 or API Gateway)
+        # Detect Event Source (S3 or API Gateway)
         if 'Records' in event:
             # S3 Event
             bucket = event['Records'][0]['s3']['bucket']['name']
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': "Missing bucket/key. Provide valid S3 event or API payload."})
             }
 
-        # ✅ Skip result files (Prevent infinite loop)
+        # Skip result files (Prevent infinite loop)
         if key.endswith('_results.txt') or key.endswith('_translated_results.txt'):
             print(f"Skipping {key} to avoid recursive invocation.")
             return {
@@ -37,14 +37,14 @@ def lambda_handler(event, context):
 
         print(f"Processing image: {key} from bucket: {bucket}")
 
-        # ✅ Detect objects in image
+        # Detect objects in image
         response = rekognition.detect_labels(
             Image={'S3Object': {'Bucket': bucket, 'Name': key}},
             MaxLabels=5
         )
         labels = {label['Name']: label['Confidence'] for label in response['Labels']}
 
-        # ✅ Translate labels (English to Spanish)
+        # Translate labels (English to Spanish)
         translated_labels = {}
         for name, confidence in labels.items():
             translation = translate.translate_text(
@@ -54,7 +54,7 @@ def lambda_handler(event, context):
             )
             translated_labels[translation['TranslatedText']] = confidence
 
-        # ✅ Save labels and translations to S3
+        # Save labels and translations to S3
         s3_client.put_object(
             Bucket=bucket,
             Key=f"{key}_results.txt",
@@ -66,13 +66,13 @@ def lambda_handler(event, context):
             Body=json.dumps(translated_labels, indent=2)
         )
 
-        # ✅ Check DynamoDB for previous notification
+        # Check DynamoDB for previous notification
         existing_item = table.get_item(Key={'ImageKey': key})
         notification_sent = False
         if 'Item' in existing_item and existing_item['Item'].get('NotificationSent') == 'Yes':
             notification_sent = True
 
-        # ✅ Save results to DynamoDB
+        # Save results to DynamoDB
         table.put_item(
             Item={
                 'ImageKey': key,
@@ -83,7 +83,7 @@ def lambda_handler(event, context):
             }
         )
 
-        # ✅ Send SNS Notification if not already sent (Optional - Currently Disabled)
+        # Send SNS Notification if not already sent (Optional - Currently Disabled)
         # if not notification_sent:
         #     sns.publish(
         #         TopicArn='arn:aws:sns:your-region:your-account-id:your-sns-topic-name',
