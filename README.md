@@ -55,6 +55,7 @@ A fully serverless image analysis pipeline built on AWS, leveraging S3, Lambda, 
 * `lambda_function.py` — Lambda handler for automated detection, translation, storage, and notification.
 * `README.md` — Project overview, architecture, and usage details.
 * `SETUP.md` — Detailed deployment and configuration guide, including API Gateway, DynamoDB, SNS, and translation setup.
+* `AWS_Image_Analyzer_API_Test.postman_collection.json` — Pre-configured Postman API Collection for testing the API Gateway endpoint. It sends a POST request with the required payload (S3 bucket and image key)   along with the API Key, allowing you to easily trigger the Lambda function from Postman for testing and debugging purposes.
 
 ---
 
