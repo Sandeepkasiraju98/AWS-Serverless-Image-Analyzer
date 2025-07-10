@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "AWS Image Analyzer API Test",
+    "_postman_id": "e6a5b950-d6a3-4af9-86c1-xyz123456789",
+    "description": "Test AWS API Gateway Lambda with bucket & key payload.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Analyze Image",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "PASTE_YOUR_API_KEY_HERE"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"bucket\": \"my-image-bucket-12879\",\n    \"key\": \"Superman.jpeg\"\n}"
+        },
+        "url": {
+          "raw": "https://7ciikx3pni.execute-api.us-east-1.amazonaws.com/dev/analyze",
+          "protocol": "https",
+          "host": [
+            "7ciikx3pni",
+            "execute-api",
+            "us-east-1",
+            "amazonaws",
+            "com"
+          ],
+          "path": [
+            "dev",
+            "analyze"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
